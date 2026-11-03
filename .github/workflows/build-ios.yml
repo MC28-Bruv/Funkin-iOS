@@ -1,6 +1,15 @@
 name: Build iOS
-on: 
+on:
   workflow_dispatch:
+    inputs:
+      build-defines:
+        type: string
+        description: Build defines to use
+        default: '-DGITHUB_BUILD'
+      save-artifact:
+        type: boolean
+        description: Save the build artifact to Github Actions (sends to itch otherwise)
+        default: false
 
 jobs:
   build:
