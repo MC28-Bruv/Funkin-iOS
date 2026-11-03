@@ -1,0 +1,31 @@
+name: Build iOS
+on: push
+
+jobs:
+  build:
+    runs-on: macos-13
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Haxe
+        uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.3.4
+
+      - name: Install Libraries
+        run: |
+          haxelib setup ~/haxelib
+          haxelib run hmm install
+
+      - name: Configure Lime Target
+        run: limetarget="ios"
+
+      - name: Build Game
+        run: haxelib run lime build ios -release
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FNF-VSlice-iOS
+          path: export/ios/build/Release-iphoneos/
